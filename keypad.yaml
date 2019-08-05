@@ -1,0 +1,32 @@
+esphome:
+  name: keypad
+  platform: ESP8266
+  board: nodemcuv2
+  includes:
+    - keypad_sensor.h
+  libraries:
+    - "Keypad"
+
+wifi:
+  ssid: "Hackerspace"
+  password: "makehackmodify"
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "makehackmodify"
+
+ota:
+  password: "makehackmodify"
+
+sensor:
+  - platform: custom
+    lambda: |-
+      auto my_sensor = new KeypadSensor();
+      App.register_component(my_sensor);
+      return {my_sensor};
+    
+    sensors:
+      name: "Keypad Sensor"
