@@ -1,9 +1,9 @@
 esphome:
-  name: keypad
+  name: keypadtext
   platform: ESP8266
   board: nodemcuv2
   includes:
-    - keypad_sensor.h
+    - keypad_textsensor.h
   libraries:
     - "Keypad"
 
@@ -21,12 +21,12 @@ api:
 ota:
   password: !secret esphome-password
 
-sensor:
+text_sensor:
   - platform: custom
     lambda: |-
-      auto my_sensor = new KeypadSensor();
+      auto my_sensor = new KeypadTextSensor();
       App.register_component(my_sensor);
       return {my_sensor};
     
-    sensors:
-      name: "Keypad Sensor"
+    text_sensors:
+      name: "Keypad TextSensor"

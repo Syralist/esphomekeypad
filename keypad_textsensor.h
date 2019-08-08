@@ -1,9 +1,11 @@
 #include "esphome.h"
 #include "Keypad.h"
 
-class KeypadSensor : public Component, public Sensor {
+class KeypadTextSensor : public Component, public TextSensor {
 
     public:
+
+    std::string keysequenz;
 
     static const byte n_rows = 4;
     static const byte n_cols = 3;
@@ -27,8 +29,17 @@ class KeypadSensor : public Component, public Sensor {
     // This will be called by App.loop()
         char myKey = myKeypad.getKey();
         if (myKey != NO_KEY){
-            int key = myKey - 48;
-            publish_state(key);
+            if (myKey == '#'){
+                publish_state(keysequenz);
+                keysequenz.clear();
+            }
+            else if (myKey == '*'){
+                keysequenz.clear();
+                publish_state(keysequenz);
+            }
+            else {
+                keysequenz.push_back(myKey);
+            }
         }
     }
 };
