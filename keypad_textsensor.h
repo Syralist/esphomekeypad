@@ -9,6 +9,10 @@ class KeypadTextSensor : public Component, public TextSensor {
 
     static const byte n_rows = 4;
     static const byte n_cols = 3;
+
+    static const unsigned int resetTime = 300;
+    unsigned int resetCounter = 0;
+    bool keyPressed = false;
     
     char keys[n_rows][n_cols] = {
     {'1','2','3'},
@@ -39,7 +43,17 @@ class KeypadTextSensor : public Component, public TextSensor {
             }
             else {
                 keysequenz.push_back(myKey);
+                keyPressed = true;
             }
+        }
+        if (keyPressed){
+            resetCounter++;
+        }
+        if (resetCounter >= resetTime){
+            keysequenz.clear();
+            publish_state(keysequenz);
+            resetCounter = 0;
+            keyPressed = false;
         }
     }
 };
