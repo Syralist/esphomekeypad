@@ -7,6 +7,11 @@ class KeypadSensor : public Component, public Sensor {
 
     static const byte n_rows = 4;
     static const byte n_cols = 3;
+
+    bool keyPublished = false;
+
+    static const unsigned int resetTime = 500;
+    unsigned int lastPublish = 0;
     
     char keys[n_rows][n_cols] = {
     {'1','2','3'},
@@ -29,6 +34,15 @@ class KeypadSensor : public Component, public Sensor {
         if (myKey != NO_KEY){
             int key = myKey - 48;
             publish_state(key);
+            keyPublished = true;
+            lastPublish = millis();
         }
+        else{
+            if (keyPublished && (millis() - lastPublish) >= resetTime){
+                publish_state(NAN);
+                keyPublished = false;
+            }
+        }
+
     }
 };
