@@ -36,10 +36,14 @@ class KeypadTextSensor : public Component, public TextSensor {
             if (myKey == '#'){
                 publish_state(keysequenz);
                 keysequenz.clear();
+                resetCounter = 0;
+                keyPressed = false;
             }
             else if (myKey == '*'){
                 keysequenz.clear();
                 publish_state(keysequenz);
+                resetCounter = 0;
+                keyPressed = false;
             }
             else {
                 keysequenz.push_back(myKey);
